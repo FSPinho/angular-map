@@ -1,0 +1,17 @@
+{
+  "name": "angular-map",
+  "authors": [
+    "felipe <felipe76857685@gmail.com>"
+  ],
+  "description": "angular directive for leaflet-js",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
