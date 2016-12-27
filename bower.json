@@ -13,5 +13,10 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "angular": "1.6.1",
+    "leaflet": "^1.0.2",
+    "leaflet-providers": "^1.1.15"
+  }
 }
