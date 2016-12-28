@@ -16,7 +16,7 @@ module.exports = function( grunt ) {
 						'js/value/providers.js', 
 						'js/directives/mapDirective.js', 
 						'js/directives/markerDirective.js', 
-						'js/directives/polyDirective.js', 
+						'js/directives/polylineDirective.js', 
 					]
 				}
 			}
