@@ -10,22 +10,39 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:200,300,400,500,700,400italic">
         
         <style type="text/css">
-            .fill-parent {
-                position: absolute;
-                top: 0; bottom: 0;
-                left: 0; right: 0;
+            #map {
+                width: 100%;
+                height: 360px;
             }
         </style>
 
     </head>
     <body ng-controller="sampleController">
 
-        <map class="fill-parent" tile-layer="openStreetMap">
-            <marker ng-model='position' ng-click='showPointInformation(position)'>
-            <polyline ng-model='latLngs' color="#FF00FF"  ng-click='showRouteInformation(latLngs)'></polyline>
+        <select ng-model="tileLayer">
+            <option ng-repeat="layer in layers" ng-value="layer">{{layer.name}}</option>
+        </select>
+
+        <br/>
+        {{tileLayer.name}}
+        <br/>
+        
+        <div>
+            <br/>
+            <div ng-repeat="marker in markers">
+                <input ng-type="number" ng-model="marker.position[0]">
+                <input ng-type="number" ng-model="marker.position[1]">
+            </div>
+        </div>
+
+        <map id="map" tile-layer="tileLayer.layer" tile-provider="tileLayer.name">
+            
+            <marker ng-repeat="marker in markers" position="marker.position" info="marker.info" draggable="marker.draggable" ng-click='showPointInformation(position)'></marker>
+
+            <polyline path="path" color="color"></polyline>
+
         </map>
 
-        
         <!-- Map plugins -->
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoBQcMnMYMQUPyorTXHqF1UjgpP4iflrg" async defer></script>
         <script type="text/javascript" src="bower_components/leaflet/dist/leaflet.js"></script>
@@ -37,17 +54,36 @@
         <script type="text/javascript" src="js/angularMap.js"></script>
         <script type="text/javascript" src="js/directives/mapDirective.js"></script>
         <script type="text/javascript" src="js/directives/markerDirective.js"></script>
+        <script type="text/javascript" src="js/directives/polylineDirective.js"></script>
         <script type="text/javascript" src="js/services/mapService.js"></script>
         <script type="text/javascript" src="js/services/mapApiService.js"></script>
+        <script type="text/javascript" src="js/value/providers.js"></script>
+        <script type="text/javascript" src="js/value/defaults.js"></script>
 
         <script type="text/javascript">
 
             app = angular.module('sample', ['angularMap']);
 
-            app.controller("sampleController", function($scope, mapApiService) {
+            app.controller("sampleController", function($scope, mapApiService, layerProviders) {
 
-                $scope.google = mapApiService.getGoogleLayer();
-                $scope.openStreetMap = mapApiService.getOpenStreetMapLayer();
+                $scope.layers = [ 
+                    { name: "Google Maps", layer: mapApiService.getLayer(layerProviders.GOOGLE) }, 
+                    { name: "OpenStreetMap", layer: mapApiService.getLayer(layerProviders.OPEN_STREET_MAP) }, 
+                    { name: "OpenStreetMap.BlackWhite", layer: mapApiService.getLayer(layerProviders.OPEN_STREET_MAP_BACK_AND_WHITE) }
+                ];
+
+                $scope.tileLayer = $scope.layers[0];
+
+                $scope.markers = [
+                    { position: [-13.5351826, -61.6368989], info: "Marker info 1", draggable: true }, 
+                    { position: [-12.2351826, -60.3368989], info: "Marker info 2", draggable: true }, 
+                    { position: [-14.5351826, -63.7368989], info: "Marker info 3", draggable: true }, 
+                    { position: [-15.5351826, -63.7368988], info: "Marker info 4", draggable: true }
+                ];
+
+                $scope.path = $scope.markers.map(function(m) {
+                    return m.position;
+                });
 
             });
 

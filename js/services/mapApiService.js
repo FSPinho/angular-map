@@ -1,15 +1,14 @@
 var module = angular.module("angularMap");
 
-module.service("mapApiService", function() {
+module.service("mapApiService", function(layerProviders) {
 
-	this.getGoogleLayer = function(extraOptions) {
-		extraOptions = extraOptions || {};
-		return L.gridLayer.googleMutant(extraOptions);
-	}
 
-	this.getOpenStreetMapLayer = function(extraOptions) {
-		sufix = extraOptions? "." + extraOptions: "";
-		return L.tileLayer.provider("OpenStreetMap" + sufix);
+	this.getLayer = function(provider) {
+		if(provider.startsWith(layerProviders.GOOGLE)) {
+			return L.gridLayer.googleMutant();
+		} else {
+			return L.tileLayer.provider(provider);
+		}
 	}
 
 });
