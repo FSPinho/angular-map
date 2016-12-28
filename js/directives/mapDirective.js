@@ -26,7 +26,7 @@ angular.module("angularMap").directive("map", function(mapFactory) {
 			
 			$scope.$watch('tileLayer', function (old, newest) {
 				old.remove();
-				newest.addTo($scope.map);
+				$scope.tileLayer.addTo($scope.map);
 			});
 			
 		},

@@ -14,7 +14,6 @@ angular.module("angularMap").directive("polyline", function(mapFactory) {
 
 			$scope.$watch('path', function() {
 				$scope.polyline.setLatLngs($scope.path);
-				console.log("Updating p");
 			}, true);
 
 			$scope.$on('$destroy', function() {
